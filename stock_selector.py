@@ -50,7 +50,7 @@ for ticker in ls_tickers:
     try:
         df = web.DataReader(ticker, 'yahoo', start, end)
     except Exception as e:
-        print(f'{str(e)}')
+        print(str(e))
         continue
     df['sym'] = ticker
     ls_df.append(df.copy())
@@ -115,12 +115,7 @@ for ticker in ls_tickers:
     indicator_ema45 = EMAIndicator(close=df['cls'],window=45)
     indicator_ema50 = EMAIndicator(close=df['cls'],window=50)
     indicator_ema60 = EMAIndicator(close=df['cls'],window=60)
-    
-    
-    # Add Bollinger Bands features
-    #df['bb_bbm'] = indicator_bb.bollinger_mavg()
-    #df['bb_bbh'] = indicator_bb.bollinger_hband()
-    #df['bb_bbl'] = indicator_bb.bollinger_lband()
+
 
     # Add Bollinger Band high indicator
     df['bb_bbhi'] = indicator_bb.bollinger_hband_indicator()
@@ -155,12 +150,6 @@ for ticker in ls_tickers:
     ls_df.append(df.copy())
     
 df = pd.concat(ls_df)
-
-#df['cls'] = df['cls'].apply(lambda x: round(x,0))
-#df['macd'] = df['macd_diff'].apply(lambda x: round(x,1))
-#df['bb_bbhi'] = df['bb_bbhi'].apply(lambda x: round(x,0))
-#df['bb_bbli'] = df['bb_bbli'].apply(lambda x: round(x,0))
-#df['rsi'] = df['rsi'].apply(lambda x: round(x,0))
 
 df['score_vol_sma20'] = df[['vol','vol_sma20']].apply(lambda x: x[0]/x[1],axis=1)
 
